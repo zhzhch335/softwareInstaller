@@ -5,14 +5,31 @@ public class Data {
 	private String cpuId;
 	private String diskId;
 	private String softwareVersion;
-	private boolean functionSwitch;
-
-	private String dataEncode(String cpuId,String diskId,String softwareVersion,boolean functionSwitch){
-		String key="";
+	private String functionSwitch;
+	
+	public static void main() {
+		
+	}
+	
+	public Data(String cpuId,String diskId,String softwareVersion,String functionSwitch){
+		this.cpuId=cpuId;
+		this.diskId=diskId;
+		this.softwareVersion=softwareVersion;
+		this.functionSwitch=functionSwitch;
+		//dataEncode();
+	}
+	
+	
+	public int dataEncode(){
+		int key;
+		String oriStr=cpuId+diskId+softwareVersion+functionSwitch;
+		key=oriStr.hashCode();
 		return key;
 	}
 
-	private boolean dataDecode(String key){
-		return false;
+	public static String[] dataDecode(String key){
+		String[] info = null;
+		return info;
 	}
+
 }
