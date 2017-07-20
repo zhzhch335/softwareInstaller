@@ -16,7 +16,6 @@ public final class Main {
 //		for(String ele:own_info) {
 //			System.out.println(ele);
 //		}
-		//Data own_data=new Data(own_info[1], own_info[2], own_info[3], own_info[4]);
 		Data own_data=new Data(own_info[0], own_info[1], own_info[2], own_info[3]);
 		int accessKey=own_data.dataEncode();
 		//File.createKeyFile(path,accessKey);
@@ -25,14 +24,12 @@ public final class Main {
 	};
 	
 	private void checkKey(String path) throws IOException {
+		int loadKey=File.loadKeyFile(path);
 		String[] own_info=ownKey();
-		String accessKey=File.loadKeyFile(path);
-		String[] info=Data.dataDecode(accessKey);
-		if(Arrays.equals(own_info, info)) {
-			System.out.println("Fail!");
-		}
-		else{
-			System.out.println("Success!");
+		String own_str=own_info[0]+own_info[1]+own_info[2]+own_info[3];
+		int own_key=own_str.hashCode();
+		if(loadKey==own_key) {
+
 		}
 	};
 	

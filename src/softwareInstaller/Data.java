@@ -1,5 +1,7 @@
 package softwareInstaller;
 
+import java.security.MessageDigest;
+
 public class Data {
 
 	private String cpuId;

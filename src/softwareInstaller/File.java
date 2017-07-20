@@ -6,7 +6,7 @@ public class File {
 		
 	}
 	
-	public static String loadKeyFile(String url) {
-		return "";
+	public static int loadKeyFile(String url) {
+		return 0;
 	}
 }
