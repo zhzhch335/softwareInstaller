@@ -1,7 +1,5 @@
 package softwareInstaller;
 
-import java.security.MessageDigest;
-
 public class Data {
 
 	private String cpuId;
@@ -29,9 +27,5 @@ public class Data {
 		return key;
 	}
 
-	public static String[] dataDecode(String key){
-		String[] info = null;
-		return info;
-	}
 
 }
