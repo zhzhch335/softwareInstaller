@@ -18,7 +18,7 @@ public class File {
 		OutputStreamWriter wr=new OutputStreamWriter(file,"UTF-8");
 		wr.append(String.valueOf(key));
 		wr.close();
-		System.out.println("密钥写入成功！");
+		System.out.println("密钥写入成功！写入路径为"+url);
 		file.close();
 	}
 	

@@ -23,6 +23,9 @@ public class Data {
 	public int dataEncode(){
 		int key;
 		String oriStr=cpuId+diskId+softwareVersion+functionSwitch;
+		for(int i=0;i<oriStr.length()-1;++i) {
+			oriStr.getChars(i, i+1, String.valueOf(Math.random()).toCharArray(), 0);
+		}
 		key=oriStr.hashCode();
 		return key;
 	}
