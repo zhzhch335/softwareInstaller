@@ -4,29 +4,34 @@ import java.io.*;
 import java.util.*;
 
 public class File {
-	/*
-	 * 
-	 * 
-	 调试用
-	public static void main(String[] args) throws IOException {
-		createKeyFile("AccessKey.key",-878496320);
-		System.out.print(loadKeyFile("AccessKey.key"));
-	}*/
-	 
-	public static void createKeyFile(String url,int key) throws IOException {
-		OutputStream file=new FileOutputStream(url);
-		OutputStreamWriter wr=new OutputStreamWriter(file,"UTF-8");
-		wr.append(String.valueOf(key));
+
+	//创建注册码文件
+	public static void createKeyFile(String url, String key) throws IOException {
+		OutputStream file = new FileOutputStream(url);
+		OutputStreamWriter wr = new OutputStreamWriter(file, "UTF-8");
+		wr.append(key);
 		wr.close();
-		System.out.println("密钥写入成功！写入路径为"+url);
 		file.close();
 	}
 	
+	//创建系统信息文件
+	public static void creatkeyFile(String url,String[] info) throws IOException{		
+		url=url.substring(0, url.length()-4)+"系统信息.txt";
+		OutputStream file=new FileOutputStream(url);
+		OutputStreamWriter wr=new OutputStreamWriter(file,"UTF-8");
+		wr.append("CPUID:"+info[0]+"\n");
+		wr.append("DiskID:"+info[1]+"\n");
+		wr.append("软件版本:"+info[2]+"\n");
+		wr.append("功能开关:"+info[3]+"\n");
+		wr.close();
+		file.close();
+	}
+
+	//加载注册码文件
 	public static int loadKeyFile(String url) throws FileNotFoundException {
-		InputStream file=new FileInputStream(url);
-		Scanner sc=new Scanner(file,"UTF-8");
-		//System.out.println(Integer.valueOf(sc.next()));
-		int key=Integer.valueOf(sc.next());
+		InputStream file = new FileInputStream(url);
+		Scanner sc = new Scanner(file, "UTF-8");
+		int key = Integer.valueOf(sc.next());
 		sc.close();
 		return key;
 	}
