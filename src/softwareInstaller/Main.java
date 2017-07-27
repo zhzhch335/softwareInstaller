@@ -39,7 +39,8 @@ public final class Main {
 	public static String funcationSwitch="true";
 	
 	public static String[] createKey(String path) throws IOException {
-		String[] own_info=ownKey();
+		String[] own_info=new String[5];
+		own_info=ownKey();
 //		for(String ele:own_info) {
 //			System.out.println(ele);
 //		}
@@ -48,7 +49,7 @@ public final class Main {
 		File.createKeyFile(path,accessKey);
 		//System.out.println(accessKey);
 		//System.out.println("Success!");
-		own_info[2]=String.valueOf(accessKey);
+		own_info[4]=String.valueOf(accessKey);
 		return own_info;
 	};
 	
@@ -70,14 +71,17 @@ public final class Main {
 	public static String[] ownKey() throws IOException {
 		//加载读取硬盘序列号的C++类库
 		System.load(System.getProperty("user.dir")+"\\CmdExec.dll");
-		String[] info= {"","","",""};
+		String[] info= {"","","","",""};
 		String cpuId=CmdExec.getCpuId();
 		String diskId=CmdExec.getDiskId();
-		System.out.println(diskId);
+		//System.out.println(diskId);
 		info[0]=cpuId;
 		info[1]=diskId;
 		info[2]=softwareVersion;
 		info[3]=funcationSwitch;
+		Data own_data=new Data(info[0], info[1], info[2], info[3]);
+		int accessKey=own_data.dataEncode();
+		info[4]=String.valueOf(accessKey);
 		return info;
 	}
 	

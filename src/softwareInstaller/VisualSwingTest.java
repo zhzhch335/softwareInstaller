@@ -34,7 +34,7 @@ public class VisualSwingTest {
 	private JFrame frmHey;
 	
 	//用于存储系统信息变量
-	private String[] info;
+	private String[] info=new String[5];
 
 
 	/**
@@ -74,7 +74,7 @@ public class VisualSwingTest {
 	private void initialize() {
 		//窗体
 		frmHey = new JFrame();
-		frmHey.setIconImage(Toolkit.getDefaultToolkit().getImage(VisualSwingTest.class.getResource("/javax/swing/plaf/metal/icons/ocean/paletteClose.gif")));
+		frmHey.setIconImage(Toolkit.getDefaultToolkit().getImage(VisualSwingTest.class.getResource("/resource/computer.png")));
 		frmHey.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		frmHey.getContentPane().setFont(new Font("方正兰亭超细黑简体", Font.PLAIN, 12));
 		frmHey.setTitle("软件注册机");
@@ -170,7 +170,7 @@ public class VisualSwingTest {
 						{ 
 							info=Main.createKey(initText.getText());
 							JOptionPane.showMessageDialog(dialog, "写入文件成功，写入路径为"+initText.getText(), "完成",JOptionPane.INFORMATION_MESSAGE);
-							JOptionPane.showMessageDialog(dialog,"CPUID:"+info[0]+"\n"+"DiskID:"+info[1]+"\n"+"序列号："+info[2],"系统信息",JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(dialog,"CPUID:"+info[0]+"\n"+"DiskID:"+info[1]+"\n"+"序列号："+info[4],"系统信息",JOptionPane.INFORMATION_MESSAGE);
 						}
 						else
 						{
@@ -190,8 +190,9 @@ public class VisualSwingTest {
 			public void mouseClicked(MouseEvent e) {
 				try {
 					if(Main.checkKey(fetchText.getText())) {
-						JOptionPane.showMessageDialog(dialog,"CPUID:"+info[0]+"\n"+"DiskID:"+info[1]+"\n"+"序列号："+info[2],"系统信息",JOptionPane.INFORMATION_MESSAGE);
+						info=Main.ownKey();	
 						JOptionPane.showMessageDialog(dialog, "软件认证成功，请继续使用","成功",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(dialog,"CPUID:"+info[0]+"\n"+"DiskID:"+info[1]+"\n"+"序列号："+info[4],"系统信息",JOptionPane.INFORMATION_MESSAGE);
 					}
 					else {
 						JOptionPane.showMessageDialog(dialog,"认证失败，请重试","失败",JOptionPane.WARNING_MESSAGE);
@@ -216,13 +217,20 @@ public class VisualSwingTest {
 		frmHey.getContentPane().add(vHint);
 		
 		//版本文本框
-		 
 		JTextField vText = new JTextField(Main.softwareVersion);
 		vText.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				Main.softwareVersion=vText.getText();
-				System.out.println(Main.softwareVersion);
+				StringBuffer str=new StringBuffer("5858");
+				if(JOptionPane.showInputDialog(dialog, "要修改版本号，必须输入管理员密码：", "请输入密码", JOptionPane.QUESTION_MESSAGE).contentEquals(str)) 
+				{
+					Main.softwareVersion=vText.getText();
+				}
+				else 
+				{
+					JOptionPane.showMessageDialog(dialog, "密码错误，修改失败！", "错误", JOptionPane.ERROR_MESSAGE);
+					vText.setText(Main.softwareVersion);
+				}
 			}
 		});
 		vText.setBounds(177, 276, 148, 21);
@@ -236,20 +244,65 @@ public class VisualSwingTest {
 		
 		//功能切换按钮
 		JToggleButton fSwitch = new JToggleButton("开",true);
-		fSwitch.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
+		fSwitch.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				StringBuffer str=new StringBuffer("5858");
+			if(JOptionPane.showInputDialog(dialog, "要修改功能，必须输入管理员密码：", "请输入密码", JOptionPane.QUESTION_MESSAGE).contentEquals(str)) 
+			{
+				if(fSwitch.isSelected()) 
+					{
+						fSwitch.setText("开");
+						Main.funcationSwitch="true";
+					}
+					else 
+					{
+						fSwitch.setText("关");
+						Main.funcationSwitch="false";
+					}
+			}
+			else 
+			{
+				JOptionPane.showMessageDialog(dialog, "密码错误，修改失败！", "错误", JOptionPane.ERROR_MESSAGE);
 				if(fSwitch.isSelected()) 
 				{
-					fSwitch.setText("开");
-					Main.funcationSwitch="true";
-					}
-				else {
-					fSwitch.setText("关");
-					Main.funcationSwitch="false";
-					}
+					fSwitch.setSelected(false);
+				}
+				else
+				{
+					fSwitch.setSelected(true);
+				}
+			}	
 				
 			}
 		});
+//		fSwitch.addChangeListener(new ChangeListener() {
+//			public void stateChanged(ChangeEvent e) {
+//				if(fSwitch.isSelected()) 
+//					{
+//						fSwitch.setText("开");
+//						Main.funcationSwitch="true";
+//					}
+//					else 
+//					{
+//						fSwitch.setText("关");
+//						Main.funcationSwitch="false";
+//					}
+//				System.out.println("????");
+//				
+////				StringBuffer str=new StringBuffer("5858");
+////				if(JOptionPane.showInputDialog(dialog, "要修改功能，必须输入管理员密码：", "请输入密码", JOptionPane.QUESTION_MESSAGE).contentEquals(str)) 
+////				{
+////					
+////				}
+////				else 
+////				{
+////					JOptionPane.showMessageDialog(dialog, "密码错误，修改失败！", "错误", JOptionPane.ERROR_MESSAGE);
+////					vText.setText(Main.softwareVersion);
+////				}				
+//			}
+//		});
 		fSwitch.setBounds(177, 318, 135, 23);
 		frmHey.getContentPane().add(fSwitch);
 		
