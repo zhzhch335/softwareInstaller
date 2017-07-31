@@ -5,11 +5,11 @@ import java.util.*;
 
 public final class Main {
 	
-	// 软件版本
-	public static String softwareVersion = "1.2.364";
+	// 软件版本默认值
+	private static String softwareVersion = "1.2.364";
 	
-	// 功能开关
-	public static String funcationSwitch = "true";
+	// 功能开关默认值
+	private static String funcationSwitch = "false";
 
 	//创建注册文件
 	public static void createKey(String path) throws IOException {
@@ -17,7 +17,7 @@ public final class Main {
 		own_info = ownKey();
 		String accessKey = String.valueOf(own_info[4]);
 		File.createKeyFile(path, accessKey);
-		File.creatkeyFile(path, own_info);
+		File.createKeyFile(path, own_info);
 	};
 	
 	//检查注册文件
@@ -28,10 +28,8 @@ public final class Main {
 		int own_key = own_str.hashCode();
 		if (loadKey == own_key) {
 			return true;
-			// System.out.println("认证成功，软件可以正常使用!");
 		} else {
 			return false;
-			// System.out.println("认证失败，请重新购买！");
 		}
 	};
 
@@ -45,8 +43,8 @@ public final class Main {
 		String diskId = getDiskId();
 		info[0] = cpuId;
 		info[1] = diskId;
-		info[2] = softwareVersion;
-		info[3] = funcationSwitch;
+		info[2] = getSoftwareVersion();
+		info[3] = getFuncationSwitch();
 		int accessKey = dataEncode(info[0], info[1], info[2], info[3]);
 		info[4] = String.valueOf(accessKey);
 		return info;
@@ -70,11 +68,28 @@ public final class Main {
 	private static int dataEncode(String cpuId,String diskId,String softwareVersion,String functionSwitch){
 		int key;
 		String oriStr=cpuId+diskId+softwareVersion+functionSwitch;
-		for(int i=0;i<oriStr.length()-1;++i) {
-			oriStr.getChars(i, i+1, String.valueOf(Math.random()).toCharArray(), 0);
-		}
 		key=oriStr.hashCode();
 		return key;
+	}
+
+	//查看版本号
+	public static String getSoftwareVersion() {
+		return softwareVersion;
+	}
+
+	//设置版本号		
+	public static void setSoftwareVersion(String softwareVersion) {
+		Main.softwareVersion = softwareVersion;
+	}
+
+	//获取功能开关状态
+	public static String getFuncationSwitch() {
+		return funcationSwitch;
+	}
+
+	//切换功能开关状态
+	public static void setFuncationSwitch(String funcationSwitch) {
+		Main.funcationSwitch = funcationSwitch;
 	}
 	
 }

@@ -15,12 +15,12 @@ public class File {
 	}
 	
 	//创建系统信息文件
-	public static void creatkeyFile(String url,String[] info) throws IOException{		
+	public static void createKeyFile(String url,String[] info) throws IOException{		
 		url=url.substring(0, url.length()-4)+"系统信息.txt";
 		OutputStream file=new FileOutputStream(url);
 		OutputStreamWriter wr=new OutputStreamWriter(file,"UTF-8");
 		wr.append("CPUID:"+info[0]+"\n");
-		wr.append("DiskID:"+info[1]+"\n");
+		wr.append("DiskID:"+info[1].replaceAll(" +", ",")+"\n");
 		wr.append("软件版本:"+info[2]+"\n");
 		wr.append("功能开关:"+info[3]+"\n");
 		wr.close();
