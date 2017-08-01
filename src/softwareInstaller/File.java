@@ -28,10 +28,10 @@ public class File {
 	}
 
 	//加载注册码文件
-	public static int loadKeyFile(String url) throws FileNotFoundException {
+	public static String loadKeyFile(String url) throws FileNotFoundException {
 		InputStream file = new FileInputStream(url);
 		Scanner sc = new Scanner(file, "UTF-8");
-		int key = Integer.valueOf(sc.next());
+		String key = sc.next();
 		sc.close();
 		return key;
 	}

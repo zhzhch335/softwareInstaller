@@ -12,10 +12,12 @@ import org.jvnet.substance.skin.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.Toolkit;
@@ -60,9 +62,10 @@ public class VisualSwingTest {
 	/**
 	 * 窗体和组件初始化
 	 * 
-	 * @throws IOException
+	 * @throws IOException 文件读写异常处理
+	 * @throws NoSuchAlgorithmException 加密方法异常处理 
 	 */
-	private static void initialize() throws IOException {
+	private static void initialize() throws IOException, NoSuchAlgorithmException {
 		// 获取系统信息（在第一次加载时）
 		final String[] info = Main.ownKey();
 
@@ -164,11 +167,16 @@ public class VisualSwingTest {
 		init.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				try {
-					Main.createKey(initText.getText());
+					try {
+						Main.createKey(initText.getText());
+					} catch (NoSuchAlgorithmException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					String sn = Main.ownKey()[4];
 					JOptionPane.showMessageDialog(dialog, "写入文件成功，写入路径为" + initText.getText() + "\n" + "序列号：" + sn,
 							"完成", JOptionPane.INFORMATION_MESSAGE);
-				} catch (IOException e1) {
+				} catch (IOException | NoSuchAlgorithmException e1) {
 					JOptionPane.showMessageDialog(dialog, "无权限写入文件，请稍后或更换路径再试", "错误", JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -192,7 +200,7 @@ public class VisualSwingTest {
 					} else {
 						JOptionPane.showMessageDialog(dialog, "认证失败，请重试", "失败", JOptionPane.WARNING_MESSAGE);
 					}
-				} catch (IOException e1) {
+				} catch (IOException | HeadlessException | NoSuchAlgorithmException e1) {
 					JOptionPane.showMessageDialog(dialog, "找不到文件或无法读取该文件，请重试", "错误", JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -460,7 +468,7 @@ public class VisualSwingTest {
 		 */
 		JTextPane txtpnkey = new JTextPane();
 		txtpnkey.setText(
-				"    尊敬的用户，您可能是盗版软件的受害者，请使用用户身份登陆，读取您在购买软件时获得的密钥文件（后缀名为.key），经过认证后方可继续使用软件。\r\n\r\n\r\n\r\n    【注意】密钥文件具有唯一性，只适配于您在购买后，管理员生成时的硬件设备，并且对软件型号和美化开关作出了限制。如果您打算更换硬件设备、购买新版本软件以及调整美化开关，请联系我们的管理员为您生成新的密钥文件。");
+				"    尊敬的用户，您可能是盗版软件的受害者！\r\n    请使用用户身份登陆，读取您在购买软件时获得的密钥文件（后缀名为.key），经过认证后方可继续使用软件。\r\n\r\n\r\n\r\n    【注意】\r\n     1、密钥文件具有唯一性，只适配于固定硬件设备，软件版本和功能开关。\r\n     2、如果您打算更换硬件设备、购买新版本软件以及调整美化开关，请联系我们的管理员为您生成新的密钥文件。");
 		txtpnkey.setEditable(false);
 		txtpnkey.setBounds(0, 0, 169, 399);
 		frmHey.getContentPane().add(txtpnkey);
