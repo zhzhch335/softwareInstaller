@@ -194,7 +194,7 @@ public class VisualSwingTest {
 						String[] info = Main.ownKey();
 						JOptionPane.showMessageDialog(dialog, "软件认证成功，请继续使用", "成功", JOptionPane.INFORMATION_MESSAGE);
 						JOptionPane.showMessageDialog(
-								dialog, "CPUID:" + info[0] + "\n" + "DiskID:" + info[1].replaceAll(" +", ",") + "\n"
+								dialog, "CPUID:" + info[0] + "\n" + "DiskID:" + info[1] + "\n"
 										+ "软件版本：" + info[2] + "\n" + "序列号：" + info[4],
 								"系统信息", JOptionPane.INFORMATION_MESSAGE);
 					} else {
@@ -307,7 +307,7 @@ public class VisualSwingTest {
 		dText.setVisible(false);
 		dText.setBounds(361, 79, 269, 15);
 		frmHey.getContentPane().add(dText);
-		dText.setText(info[1].replaceAll(" +", ",") + "\n");
+		dText.setText(info[1] + "\n");
 
 		// CPUID提示标签
 		final JLabel cHint = new JLabel("CPUID：");
@@ -341,7 +341,7 @@ public class VisualSwingTest {
 
 		// 角色选择下拉框
 		String[] rule = { "管理员（修改软件信息及生成注册文件)", "用户（核对注册文件）" };
-		final JComboBox roleChooser = new JComboBox(rule);
+		final JComboBox<String> roleChooser = new JComboBox<String>(rule);
 		roleChooser.setSelectedIndex(1);
 		roleChooser.setBounds(253, 138, 316, 21);
 		frmHey.getContentPane().add(roleChooser);
@@ -472,7 +472,13 @@ public class VisualSwingTest {
 		txtpnkey.setEditable(false);
 		txtpnkey.setBounds(0, 0, 169, 399);
 		frmHey.getContentPane().add(txtpnkey);
-
+		/*
+		 * 左侧提示区域end
+		 * 
+		 */
+		
+		
+		
 		// 显示窗体
 		frmHey.setVisible(true);
 	}

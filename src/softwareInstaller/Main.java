@@ -13,6 +13,11 @@ public final class Main {
 	// 功能开关默认值
 	private static String funcationSwitch = "false";
 
+	/*
+	 * 文件读写相关
+	 * 
+	 */
+
 	// 创建注册文件
 	public static void createKey(String path) throws IOException, NoSuchAlgorithmException {
 		String[] own_info = new String[5];
@@ -34,11 +39,21 @@ public final class Main {
 		}
 	};
 
-	// 获取系统信息
+	/*
+	 * 文件读写相关 end
+	 * 
+	 */
+
+	/*
+	 * 信息获取相关
+	 * 
+	 */
+
+	// 整体获取系统信息
 	public static String[] ownKey() throws IOException, NoSuchAlgorithmException {
 
-		// 加载读取硬盘序列号的C++类库
-		System.load(System.getProperty("user.dir") + "\\Main.dll");
+		// 加载读取硬盘序列号的C++类库（并不用）
+		// System.load(System.getProperty("user.dir") + "\\Main.dll");
 		String[] info = { "", "", "", "", "" };/* 用于存储系统信息 */
 		String cpuId = getCpuId();
 		String diskId = getDiskId();
@@ -51,8 +66,19 @@ public final class Main {
 		return info;
 	}
 
-	// 从C++调用硬盘信息
-	private static native String getDiskId();
+	// 使用wmic工具调用硬盘序列号
+	private static String getDiskId() throws IOException {
+		String result = "";/* 用于保存结果 */
+		String appent = "";/* 用于阅读每一行 */
+		Process rt = Runtime.getRuntime().exec("wmic path win32_physicalmedia get SerialNumber");
+		InputStreamReader rd = new InputStreamReader(rt.getInputStream());
+		BufferedReader br = new BufferedReader(rd);
+		br.readLine();
+		while ((appent = br.readLine()) != null) {
+			result = result + appent;
+		}
+		return result;
+	};
 
 	// 从命令提示符调用CPU信息
 	private static String getCpuId() throws IOException {
@@ -65,6 +91,21 @@ public final class Main {
 		return cpuId;
 	}
 
+	// 查看版本号
+	public static String getSoftwareVersion() {
+		return softwareVersion;
+	}
+
+	// 获取功能开关状态
+	public static String getFuncationSwitch() {
+		return funcationSwitch;
+	}
+
+	/*
+	 * 信息获取相关end
+	 * 
+	 */
+	
 	// SHA加密
 	private static String dataEncode(String cpuId, String diskId, String softwareVersion, String functionSwitch)
 			throws NoSuchAlgorithmException {
@@ -78,19 +119,9 @@ public final class Main {
 		return key.toUpperCase();
 	}
 
-	// 查看版本号
-	public static String getSoftwareVersion() {
-		return softwareVersion;
-	}
-
 	// 设置版本号
 	public static void setSoftwareVersion(String softwareVersion) {
 		Main.softwareVersion = softwareVersion;
-	}
-
-	// 获取功能开关状态
-	public static String getFuncationSwitch() {
-		return funcationSwitch;
 	}
 
 	// 切换功能开关状态
