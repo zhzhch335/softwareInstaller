@@ -31,8 +31,7 @@ public final class Main {
 	public static boolean checkKey(String path) throws IOException, NoSuchAlgorithmException {
 		String loadKey = File.loadKeyFile(path);
 		String[] own_info = ownKey();
-		StringBuffer own_key = new StringBuffer(dataEncode(own_info[0], own_info[1], own_info[2], own_info[3]));
-		if (loadKey.contentEquals(own_key)) {
+		if (loadKey.contentEquals(own_info[4])) {
 			return true;
 		} else {
 			return false;
@@ -51,9 +50,6 @@ public final class Main {
 
 	// 整体获取系统信息
 	public static String[] ownKey() throws IOException, NoSuchAlgorithmException {
-
-		// 加载读取硬盘序列号的C++类库（并不用）
-		// System.load(System.getProperty("user.dir") + "\\Main.dll");
 		String[] info = { "", "", "", "", "" };/* 用于存储系统信息 */
 		String cpuId = getCpuId();
 		String diskId = getDiskId();
@@ -70,7 +66,7 @@ public final class Main {
 	private static String getDiskId() throws IOException {
 		String result = "";/* 用于保存结果 */
 		String appent = "";/* 用于阅读每一行 */
-		Process rt = Runtime.getRuntime().exec("wmic path win32_physicalmedia get SerialNumber");
+		Process rt = Runtime.getRuntime().exec("wmic diskdrive get SerialNumber");
 		InputStreamReader rd = new InputStreamReader(rt.getInputStream());
 		BufferedReader br = new BufferedReader(rd);
 		br.readLine();
