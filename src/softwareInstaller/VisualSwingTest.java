@@ -54,7 +54,7 @@ public class VisualSwingTest {
 			}
 		});
 		/*
-		 * 加载窗体和组件 （线程安全）end
+		 * 将UI绘制操作加入EDT中，加载窗体和组件 （线程安全）end
 		 */
 	}
 
