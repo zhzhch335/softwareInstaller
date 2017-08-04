@@ -260,6 +260,9 @@ public class VisualSwingTest {
 							vText.setText(Main.getSoftwareVersion());
 						}
 					}
+					else {/*不输入密码则将版本号复原*/
+						vText.setText(Main.getSoftwareVersion());
+					}
 				}
 			}
 		});
