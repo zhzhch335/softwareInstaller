@@ -22,14 +22,23 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.Toolkit;
 
-public class VisualSwingTest {
 
+/**
+ * @describe UI类 用于呈现用户窗体以及密码验证 
+ * @author Zhao Zhichen
+ * @time 2017.08.07 下午2:24:57
+ * @version softwareInstaller.17.08.07
+ * @see	
+ */
+public class VisualSwingTest {
+	
 	public static void main(String[] args) {
 
 		/*
 		 * 使用substance美化界面
 		 */
 		JFrame.setDefaultLookAndFeelDecorated(true);
+		
 		JDialog.setDefaultLookAndFeelDecorated(true);
 		try {
 			UIManager.setLookAndFeel(new SubstanceLookAndFeel());
@@ -124,7 +133,12 @@ public class VisualSwingTest {
 		final JButton initFile = new JButton("浏览...");
 		initFile.setVisible(false);
 		initFile.addMouseListener(new MouseAdapter() {
-			@Override
+			/**   
+			 * Title: mouseClicked
+			 * Description: 鼠标点击唤起文件选择对话框
+			 * @param e   鼠标响应事件
+			 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)   
+			 */  
 			public void mouseClicked(MouseEvent e) {
 				int returnVal = chooser.showSaveDialog(dialog);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -146,6 +160,12 @@ public class VisualSwingTest {
 		// 浏览按钮，用于唤起文件保存对话框
 		// 尝试使用通用方法写事件相应（也就是说所有动作都会触发事件）
 		fetchFile.addActionListener(new ActionListener() {
+			/**   
+			 * Title: actionPerformed
+			 * Description: 鼠标通用事件用于唤起文件保存对话框
+			 * @param e   通用事件
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)   
+			 */  
 			public void actionPerformed(ActionEvent e) {
 				int returnVal = chooser.showOpenDialog(dialog);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -164,6 +184,12 @@ public class VisualSwingTest {
 		});
 		init.setVisible(false);
 		init.addMouseListener(new MouseAdapter() {
+			/**   
+			 * Title: mouseClicked
+			 * Description: 鼠标点击调用生成密钥方法
+			 * @param e   鼠标响应事件
+			 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)   
+			 */  
 			public void mouseClicked(MouseEvent e) {
 				try {
 					try {
@@ -186,6 +212,12 @@ public class VisualSwingTest {
 		final JButton fetch = new JButton("激活");
 		fetch.setVisible(false);
 		fetch.addMouseListener(new MouseAdapter() {
+			/**   
+			 * Title: mouseClicked
+			 * Description: 鼠标点击调用激活密钥方法
+			 * @param e   鼠标响应事件
+			 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)   
+			 */  
 			public void mouseClicked(MouseEvent e) {
 				try {
 					if (Main.checkKey(fetchText.getText())) {
@@ -224,6 +256,12 @@ public class VisualSwingTest {
 		vText.setVisible(false);
 		vText.setEnabled(false);
 		vText.addFocusListener(new FocusAdapter() {
+			/**   
+			 * Title: focusLost
+			 * Description: 焦点消失后进行修改版本号操作
+			 * @param e   焦点消失响应事件
+			 * @see java.awt.event.FocusAdapter#focusLost(java.awt.event.FocusEvent)   
+			 */  
 			@Override
 			public void focusLost(FocusEvent e) {
 				if (!Main.getSoftwareVersion().contentEquals(vText.getText())) {/* 判断当前文本框中数据与原数据是否相同，相同则不必修改 */
@@ -289,6 +327,12 @@ public class VisualSwingTest {
 
 		fSwitch.addActionListener(new ActionListener() {
 
+			/**   
+			 * Title: actionPerformed
+			 * Description: 通用事件唤起功能切换修改操作
+			 * @param e   通用响应事件
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)   
+			 */  
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final JPasswordField pswinput = new JPasswordField();
@@ -394,6 +438,12 @@ public class VisualSwingTest {
 		final JButton roleButton = new JButton("登录");
 		roleButton.setBounds(359, 186, 80, 21);
 		roleButton.addMouseListener(new MouseAdapter() {
+			/**   
+			 * Title: mouseClicked
+			 * Description: 点击登陆按钮进入登录后界面
+			 * @param e   鼠标响应事件
+			 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)   
+			 */  
 			public void mouseClicked(MouseEvent e) {
 				if (roleChooser.getSelectedIndex() == 1) {
 

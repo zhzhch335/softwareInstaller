@@ -3,8 +3,14 @@ package softwareInstaller;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
 
+/**
+ * @describe 主控类，用于调用加密函数以及与数据类通信
+ * @author Zhao Zhichen
+ * @time 2017.08.07 下午2:26:52
+ * @version softwareInstaller.17.08.07
+ * @see	
+ */
 public final class Main {
 
 	// 软件版本默认值
@@ -18,7 +24,14 @@ public final class Main {
 	 * 
 	 */
 
-	// 创建注册文件,返回值void，参数String为文件路径
+	/**   
+	 * @Title: createKey   
+	 * @Description:  调用File类的方法创建密钥文件
+	 * @param path 密钥文件
+	 * @throws IOException 写入异常
+	 * @throws NoSuchAlgorithmException 未找到加密字典异常      
+	 * @return: void      
+	 */  
 	public static void createKey(String path) throws IOException, NoSuchAlgorithmException {
 		String[] own_info = new String[5];
 		own_info = ownKey();
@@ -28,6 +41,14 @@ public final class Main {
 	};
 
 	// 检查注册文件，返回值boolean，参数String为文件路径
+	/**   
+	 * @Title: checkKey   
+	 * @Description:  核对密钥是否一致
+	 * @param path 密钥文件路径
+	 * @throws IOException 读取异常
+	 * @throws NoSuchAlgorithmException 未找到加密字典异常      
+	 * @return: boolean      
+	 */  
 	public static boolean checkKey(String path) throws IOException, NoSuchAlgorithmException {
 		String loadKey = File.loadKeyFile(path);
 		String[] own_info = ownKey();
@@ -48,7 +69,13 @@ public final class Main {
 	 * 
 	 */
 
-	// 整体获取系统信息，返回值为字符串数组，为别代表CPU信息，硬盘信息，版本信息和功能信息，无参数
+	/**   
+	 * @Title: ownKey   
+	 * @Description:  获取系统信息并调用encode()方法获取注册码
+	 * @throws IOException 读取异常
+	 * @throws NoSuchAlgorithmException 未找到加密字典异常      
+	 * @return: String[]      系统信息+注册码数组
+	 */  
 	public static String[] ownKey() throws IOException, NoSuchAlgorithmException {
 		String[] info = { "", "", "", "", "" };/* 用于存储系统信息 */
 		String cpuId = getCpuId();
@@ -62,7 +89,12 @@ public final class Main {
 		return info;
 	}
 
-	// 使用wmic工具调用硬盘序列号，返回值为字符串，无参数
+	/**   
+	 * @Title: getDiskId   
+	 * @Description: 获取硬盘序列号  
+	 * @throws IOException     读取异常 
+	 * @return: String      
+	 */  
 	private static String getDiskId() throws IOException {
 		String result = "";/* 用于保存结果 */
 		String appent = "";/* 用于阅读每一行 */
@@ -76,7 +108,13 @@ public final class Main {
 		return result;
 	};
 
-	// 从命令提示符调用CPU信息，返回值为字符串，无参数
+	/**   
+	 * @Title: getCpuId   
+	 * @Description:获取CPUID  
+	 * @return
+	 * @throws IOException  读取异常    
+	 * @return: String      
+	 */  
 	private static String getCpuId() throws IOException {
 		String cpuId;
 		Process rt = Runtime.getRuntime().exec("wmic cpu get processorId");
@@ -88,12 +126,20 @@ public final class Main {
 		return cpuId;
 	}
 
-	// 查看版本号，直接返回成员变量，返回值为字符串，无参数
+	/**   
+	 * @Title: getSoftwareVersion   
+	 * @Description:查看版本号  
+	 * @return: String      
+	 */  
 	public static String getSoftwareVersion() {
 		return softwareVersion;
 	}
 
-	// 获取功能开关状态，直接返回成员变量，返回值为字符串，无参数
+	/**   
+	 * @Title: getFuncationSwitch   
+	 * @Description:  查看功能开关状态
+	 * @return: String      
+	 */  
 	public static String getFuncationSwitch() {
 		return funcationSwitch;
 	}
@@ -103,7 +149,16 @@ public final class Main {
 	 * 
 	 */
 	
-	// SHA加密，使用哈希算法获取序列号，返回值为32长度的字符串，参数为四个字符串
+	/**   
+	 * @Title: dataEncode   
+	 * @Description:  SHA加密，使用哈希算法获取序列号
+	 * @param cpuId
+	 * @param diskId
+	 * @param softwareVersion
+	 * @param functionSwitch
+	 * @throws NoSuchAlgorithmException 未找到字典异常      
+	 * @return: String      返回值为32长度的字符串
+	 */  
 	private static String dataEncode(String cpuId, String diskId, String softwareVersion, String functionSwitch)
 			throws NoSuchAlgorithmException {
 		String key = "";
@@ -111,17 +166,27 @@ public final class Main {
 		MessageDigest md = MessageDigest.getInstance("SHA");
 		byte[] bkey = md.digest(oriStr.getBytes());
 		for (byte i : bkey) {
-			key = key + Integer.toHexString(i & 0x000000FF);
+			key = key + Integer.toHexString((i & 0x000000FF)|0xFFFFFF00).substring(6);
 		}
 		return key.toUpperCase();
 	}
 
-	// 设置版本号，返回值为空，参数为版本号字符串
+	/**   
+	 * @Title: setSoftwareVersion   
+	 * @Description:  设置版本号
+	 * @param softwareVersion      
+	 * @return: void      
+	 */  
 	public static void setSoftwareVersion(String softwareVersion) {
 		Main.softwareVersion = softwareVersion;
 	}
 
-	// 切换功能开关状态，返回值为空，参数为字符串“true”或是字符串“false”，分别代表功能开和功能关
+	/**   
+	 * @Title: setFuncationSwitch   
+	 * @Description:切换功能开关状态  
+	 * @param funcationSwitch      参数为字符串“true”或是字符串“false”，分别代表功能开和功能关
+	 * @return: void      
+	 */  
 	public static void setFuncationSwitch(String funcationSwitch) {
 		Main.funcationSwitch = funcationSwitch;
 	}
