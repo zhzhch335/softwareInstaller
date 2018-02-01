@@ -5,7 +5,7 @@
 
 #define _WIN32_DCOM
 //CoInitializeEx处理标志
-
+222222222222222
 #include <iostream>
 //#include <iostream.h>
 using namespace std;
