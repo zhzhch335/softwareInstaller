@@ -428,7 +428,7 @@ public class VisualSwingTest {
 		frmHey.getContentPane().add(ruleHint);
 
 		// 角色选择下拉框
-		String[] rule = { "管理员（修改软件信息及生成注册文件)", "用户（激活注册文件）" };
+		String[] rule = { "生成注册文件（获取你本机唯一的注册文件)", "激活（使用注册文件替换系统）" };
 		final JComboBox<String> roleChooser = new JComboBox<String>(rule);/*JCombo类的String泛型*/
 		roleChooser.setSelectedIndex(1);
 		roleChooser.setBounds(253, 138, 316, 21);
@@ -587,7 +587,7 @@ public class VisualSwingTest {
 		 */
 		JTextPane txtpnkey = new JTextPane();
 		txtpnkey.setText(
-				"    尊敬的用户，您可能是盗版软件的受害者！\r\n    请使用用户身份登陆，使用您在购买软件时获得的密钥文件（后缀名为.key）激活后方可继续使用软件。\r\n\r\n\r\n\r\n    【注意】\r\n     1、密钥文件具有唯一性，只适配于固定硬件设备，软件版本和功能开关。\r\n     2、如果您打算更换硬件设备、购买新版本软件以及调整美化开关，请联系我们的管理员为您生成新的密钥文件。");
+				"\r\n\r\n\r\n\r\n    尊敬的用户，要激活软件，请采取以下两个步骤：\r\n     1、选择你需要的配置，选择一个位置生成好你的注册文件(后缀名.key)\r\n     2、选择激活选项，载入您刚刚生成的密钥文件");
 		txtpnkey.setEditable(false);
 		txtpnkey.setBounds(0, 0, 169, 399);
 		frmHey.getContentPane().add(txtpnkey);

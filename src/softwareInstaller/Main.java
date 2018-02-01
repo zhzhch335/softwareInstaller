@@ -3,6 +3,7 @@ package softwareInstaller;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 /**
  * @describe 主控类，用于调用加密函数以及与数据类通信
